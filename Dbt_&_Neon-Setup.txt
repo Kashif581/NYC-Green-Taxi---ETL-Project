@@ -1,0 +1,78 @@
+Dbt + Neon PostgreSQL Setup Guide
+
+
+This guide will help you set up your own cloud-based data transformation project using:
+• dbt Cloud (free Developer plan)
+• PostgreSQL on Neon (free cloud database)
+• You’ll write SQL models, test them, and run transformations in dbt
+
+Step 1: Set Up Your Neon PostgreSQL Database
+1. Go to https://neon.tech
+2. Sign up using GitHub or email.
+3. Once inside the console:
+o Click "New Project"
+o Name your project: dbt_training_project
+o Click "Create Project"
+4. After setup, Neon will show a Connection string.
+Example:
+postgresql://neondb_owner:<password>@ep-xyz-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require
+5. Save these for later:
+o Username: neondb_owner
+o Password: (Click “Show password”)
+o Host: Something like ep-xyz-pooler.us-east-2.aws.neon.tech
+o Database name: neondb
+o Port: 5432
+o SSL Mode: require
+
+
+Step 2: Create a dbt Cloud Account
+1. Go to https://cloud.getdbt.com/signup
+2. Choose Free Developer Plan
+3. Sign up using GitHub or email
+4. Name your account (e.g., Student Workspace)
+5. Choose “Start from Scratch” if prompted
+
+Step 3: Create Your First dbt Cloud Project
+1. From the dbt Cloud dashboard, click “New Project”
+2. Name your project (e.g., etl_training_project)
+3. Click “Continue”
+
+
+Step 4: Connect dbt to Neon (PostgreSQL)
+1. You’ll be prompted to Add a Connection
+Choose:
+o Adapter: PostgreSQL
+2. Fill out the form:
+o Host: Copy from Neon (ep-xxx-pooler...)
+o Port: 5432
+o Username: neondb_owner
+o Password: (from Neon console)
+o Database: neondb
+o Schema: public (or create your own, like dbt_student)
+o SSL Mode: require
+3. Click Test Connection → should pass
+4. Click Save and continue to project setup
+
+
+Step 5: Initialize Your dbt Project
+1. Choose to start from a Blank Project
+2. You’ll now be dropped into the IDE (in your browser)
+Inside the IDE, you’ll see:
+/models/example/my_first_dbt_model.sql
+You can now start editing models and running them.
+
+
+Step 6: Build and Run a Sample Model
+1. Replace the contents of my_first_dbt_model.sql with this:
+-- models/my_first_dbt_model.sql
+SELECT
+ 'student@example.com' AS email,
+ 42 AS user_id,
+ CURRENT_DATE AS signup_date
+2. Click "Commit" (top right)
+3. Click “Build” (top left) or run dbt build
+Step 7: See Your Tables in Neon
+1. Go back to Neon Console
+2. Click SQL Editor
+3. Run this query:
+SELECT * FROM my_first_dbt_model;
